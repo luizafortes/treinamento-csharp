@@ -8,7 +8,6 @@
 *.ide-wal
 *.suo
 *.user
-*.sln
 bin/
 obj/
 Debug/
