@@ -16,6 +16,9 @@ namespace Projeto.Presentation.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //habilitar o uso do MVC
+            services.AddControllersWithViews(); //NET CORE 3.1
+            //services.AddMvc(); //NET CORE 2.1
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,14 +29,17 @@ namespace Projeto.Presentation.Mvc
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app.UseStaticFiles(); //NET CORE 3.1 ou 2.1
+            app.UseRouting(); //NET CORE 3.1
 
+            //NET CORE 3.1
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                //mapear a página inicial do projeto
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}"
+                );
             });
         }
     }

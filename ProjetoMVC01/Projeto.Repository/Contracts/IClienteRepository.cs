@@ -7,5 +7,7 @@ namespace Projeto.Repository.Contracts
 {
     public interface IClienteRepository : IBaseRepository<Cliente>
     {
+        Cliente GetByEmail(string email);
+        Cliente GetByCpf(string cpf);
     }
 }
