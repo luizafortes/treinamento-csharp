@@ -1,4 +1,5 @@
-﻿
+﻿@model Projeto.Presentation.Mvc.Models.ClienteCadastroModel
+
 @{
     ViewData["Title"] = "Cadastro";
     Layout = "~/Views/Shared/Layout.cshtml";
@@ -7,26 +8,45 @@
 <h5>Cadastro de Clientes</h5>
 Preencha o formulário abaixo para realizar o cadastro.
 <br />
+<br />
 
-<form>
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+
+@using (Html.BeginForm())
+{
 
     <label>Nome do Cliente:</label>
-    <input type="text" class="form-control col-md-4"
-           placeholder="Digite aqui" />
+    @Html.TextBoxFor(model => model.Nome,
+        new
+            {
+            @class = "form-control col-md-4",
+            @placehoder = "Digite aqui"
+        })
     <br />
 
     <label>Email:</label>
-    <input type="text" class="form-control col-md-4"
-           placeholder="Digite aqui" />
+    @Html.TextBoxFor(model => model.Email,
+        new
+        {
+            @class = "form-control col-md-4",
+            @placehoder = "Digite aqui"
+        })
     <br />
 
     <label>CPF:</label>
-    <input type="text" class="form-control col-md-4"
-           placeholder="Digite aqui" />
+    @Html.TextBoxFor(model => model.Cpf,
+        new
+        {
+            @class = "form-control col-md-4",
+            @placehoder = "Digite aqui"
+        })
     <br />
 
     <input type="submit" class="btn btn-success"
            value="Realizar Cadastro" />
 
-</form>
+}
 
