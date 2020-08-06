@@ -1,0 +1,43 @@
+﻿@model List<Projeto.Repository.Entities.Dependente>
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h5>Consulta de Dependentes</h5>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Nome do Dependente</th>
+            <th>Data de Nascimento</th>
+            <th>Cliente</th>
+            <th>Operações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.DataNascimento</td>
+                <td>@item.IdCliente</td>
+                <td>
+                    <a href="/Dependente/Edicao?id=@item.IdDependente" class="btn btn-primary btn-sm">
+                        Atualizar
+                    </a>
+                    <a href="/Dependente/Exclusao?id=@item.IdDependente"
+                       onclick="return confirm('Deseja realmente excluir o dependente?');" class="btn btn-danger btn-sm">
+                        Excluir
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">Quantidade de dependentes: @Model.Count()</td>
+        </tr>
+    </tfoot>
+</table>

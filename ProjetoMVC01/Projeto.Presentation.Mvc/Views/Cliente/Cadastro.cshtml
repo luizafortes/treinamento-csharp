@@ -45,6 +45,15 @@ Preencha o formulário abaixo para realizar o cadastro.
         })
     <br />
 
+    <label>Data de Nascimento:</label>
+    @Html.TextBoxFor(model => model.DataNascimento,
+        new
+        {
+            @class = "form-control col-md-4",
+            @placehoder = "Digite aqui"
+        })
+    <br />
+
     <input type="submit" class="btn btn-success"
            value="Realizar Cadastro" />
 

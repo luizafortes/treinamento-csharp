@@ -6,53 +6,82 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>COTI Informática</title>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>COTI Informática</title>
 
-    <!-- folhas de estilo CSS do bootstrap -->
-    <link href="~/css/bootstrap.css" rel="stylesheet" />
+        <!-- folhas de estilo CSS do bootstrap -->
+        <link href="~/css/bootstrap.css" rel="stylesheet" />
 
-</head>
-<body>
+    </head>
+    <body>
 
-    <div class="container mt-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Projeto MVC 01</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <h3>Sistema de Controle de Clientes</h3>
-        <p>Treinamento em C# WebDeveloper - COTI Informática</p>
-        <ul>
-            <li> <a href="/Cliente/Cadastro">Cadastrar Clientes</a> </li>
-            <li> <a href="/Cliente/Consulta">Consultar Clientes</a> </li>
-        </ul>
-        <hr />
-
-        @if (TempData["MensagemSucesso"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>@TempData["MensagemSucesso"]</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Home/Index">Página inicial <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gerenciar Clientes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Cliente/Cadastro">Cadastrar Clientes</a>
+                            <a class="dropdown-item" href="/Cliente/Consulta">Consultar Clientes</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gerenciar Dependentes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Dependente/Cadastro">Cadastrar Dependentes</a>
+                            <a class="dropdown-item" href="/Dependente/Consulta">Consultar Dependentes</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        }
+        </nav>
 
-        @if (TempData["MensagemErro"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>@TempData["MensagemErro"]</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        }
+        <div class="container mt-3">
 
-        @RenderBody()
+            <h3>Sistema de Controle de Clientes</h3>
+            <p>Treinamento em C# WebDeveloper - COTI Informática</p>
+            <hr />
 
-    </div>
+            @if (TempData["MensagemSucesso"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@TempData["MensagemSucesso"]</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
 
-    <!-- Referência dos arquivos JavaScript do bootstrao e jquery -->
-    <script src="~/js/jquery-3.5.1.min.js"></script>
-    <script src="~/js/bootstrap.js"></script>
+            @if (TempData["MensagemErro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>@TempData["MensagemErro"]</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
 
-</body>
+            @RenderBody()
+
+        </div>
+
+        <!-- Referencia dos arquivos JavaScript do bootstrap e jquery -->
+        <script src="~/js/jquery-3.5.1.min.js"></script>
+        <script src="~/js/bootstrap.js"></script>
+
+    </body>
 </html>

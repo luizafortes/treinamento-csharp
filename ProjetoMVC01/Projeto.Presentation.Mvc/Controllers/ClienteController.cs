@@ -41,6 +41,7 @@ namespace Projeto.Presentation.Mvc.Controllers
                     cliente.Nome = model.Nome;
                     cliente.Email = model.Email;
                     cliente.Cpf = model.Cpf;
+                    cliente.DataNascimento = model.DataNascimento;
 
                     clienteRepository.Create(cliente); //gravando o cliente no banco de dados
 
@@ -101,8 +102,56 @@ namespace Projeto.Presentation.Mvc.Controllers
             return RedirectToAction("Consulta");
         }
 
-        public IActionResult Edicao(int id)
+        public IActionResult Edicao(int id, [FromServices] ClienteRepository clienteRepository)
         {
+            //criando um objeto da classe model
+            var model = new ClienteEdicaoModel();
+
+            try
+            {
+                //buscando o cliente no banco de dados pelo id
+                var cliente = clienteRepository.GetById(id);
+
+                //transferir os dados do cliente para a model
+                model.IdCliente = cliente.IdCliente;
+                model.Nome = cliente.Nome;
+                model.Email = cliente.Email;
+                model.Cpf = cliente.Cpf;
+                model.DataNascimento = cliente.DataNascimento;
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+            return View(model); //abrir uma página
+        }
+
+        [HttpPost] //método recebe o SUBMIT do formulário
+        public IActionResult Edicao(ClienteEdicaoModel model, [FromServices] ClienteRepository clienteRepository)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    var cliente = new Cliente();
+
+                    cliente.IdCliente = model.IdCliente;
+                    cliente.Nome = model.Nome;
+                    cliente.Email = model.Email;
+                    cliente.Cpf = model.Cpf;
+                    cliente.DataNascimento = model.DataNascimento;
+
+                    //atualizando no banco de dados
+                    clienteRepository.Update(cliente);
+                    TempData["MensagemSucesso"] = "Cliente atualizado com sucesso.";
+                }
+                catch (Exception e)
+                {
+                    TempData["MensagemErro"] = e.Message;
+                }
+            }
+            
             return View(); //abrir uma página
         }
     }

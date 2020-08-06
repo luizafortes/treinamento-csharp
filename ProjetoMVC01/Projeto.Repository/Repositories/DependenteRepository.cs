@@ -52,7 +52,7 @@ namespace Projeto.Repository.Repositories
 
         public List<Dependente> GetAll()
         {
-            var query = "select * from Dependente";
+            var query = "select * from Dependente order by Nome asc";
 
             using (var connection = new SqlConnection(connectionString))
             {
