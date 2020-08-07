@@ -93,5 +93,15 @@ namespace Projeto.Repository.Repositories
                     (query, new { Cpf = cpf });
             }
         }
+
+        public List<Cliente> GetByNome(string nome)
+        {
+            var query = "select * from Cliente where Nome like @Nome order by Nome asc";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Cliente>(query, new { Nome = ("%" + nome + "%") }).ToList();
+            }
+        }
     }
 }

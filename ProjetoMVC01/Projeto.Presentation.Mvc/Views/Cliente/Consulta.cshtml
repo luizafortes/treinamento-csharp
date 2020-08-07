@@ -1,10 +1,22 @@
 ﻿@model List<Projeto.Repository.Entities.Cliente>
 
-@{    
+@{
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
 <h5>Consulta de Clientes</h5>
+
+@using (Html.BeginForm())
+{
+    <div class="form-row pb-2">
+        <div class="col-md-6">
+            <input name="nome" type="text" class="form-control" placeholder="Informe o nome do cliente" autocomplete="off">
+        </div>
+        <div class="col">
+            <input type="submit" value="Pesquisar Cliente" class="btn btn-secondary">
+        </div>
+    </div>
+}
 
 <table class="table table-hover table-striped">
     <thead>
@@ -26,7 +38,7 @@
                     <a href="/Cliente/Edicao?id=@item.IdCliente" class="btn btn-primary btn-sm">
                         Atualizar
                     </a>
-                    <a href="/Cliente/Exclusao?id=@item.IdCliente" 
+                    <a href="/Cliente/Exclusao?id=@item.IdCliente"
                        onclick="return confirm('Deseja realmente excluir o cliente?');" class="btn btn-danger btn-sm">
                         Excluir
                     </a>

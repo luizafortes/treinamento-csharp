@@ -14,13 +14,11 @@ namespace Projeto.Presentation.Mvc.Models
         [Required(ErrorMessage = "Por Favor, informe o nome do dependente.")]
         public string Nome { get; set; }
 
-        //[DisplayFormat(DataFormatString = "mm/dd/yyyy")]
-        [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Por Favor, informe a data de nascimento.")]
-        public DateTime DataNascimento { get; set; }
+        public string DataNascimento { get; set; }
 
         [Required(ErrorMessage = "Por Favor, selecione um cliente.")]
-        public int IdCliente { get; set; }
+        public int? IdCliente { get; set; }
 
         //listagem de clientes para exibir no formulário
         public List<SelectListItem> ListagemDeClientes { get; set; }

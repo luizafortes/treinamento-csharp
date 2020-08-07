@@ -1,0 +1,48 @@
+﻿@model Projeto.Presentation.Mvc.Models.DependenteEdicaoModel
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="page-header">
+            Dependentes
+        </h5>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+<div class="card">
+    <div class="card-header font-weight-bold">Cadastro de Dependentes</div>
+    <div class="card-body">
+        <!-- campo oculto -->
+        @Html.HiddenFor(model => model.IdDependente)
+
+        <div class="col-md-8">
+            <label>Nome do Dependente:</label>
+            @Html.TextBoxFor(model => model.Nome,
+                new
+                {
+                    @class = "form-control col-md-4",
+                    @placeholder = "Digite aqui"
+                })
+        </div>
+
+        <div class="col-md-8 mt-1">
+            <label>Data de Nascimento:</label>
+            @Html.TextBoxFor(model => model.DataNascimento,
+                new
+                {
+                    @class = "form-control col-md-8",
+                    @placeholder = "Digite aqui",
+                    @type = "date"
+                })
+        </div>
+        <div class="col-md-4 mt-2">
+            <input type="submit" class="btn btn-success" value="Salvar Alterações" />
+        </div>
+    </div>
+</div>
+}

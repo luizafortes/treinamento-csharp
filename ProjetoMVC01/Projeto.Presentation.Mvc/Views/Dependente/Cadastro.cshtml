@@ -4,55 +4,56 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h5>Cadastro de Dependentes</h5>
-Preencha o formulário abaixo para realizar o cadastro.
-<br />
-<br />
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="page-header">
+            Dependentes
+        </h5>
+    </div>
+</div>
 
 <div class="text-danger">
     @Html.ValidationSummary()
 </div>
 
-
 @using (Html.BeginForm())
-{
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-4">
+{    
+    <div class="card">
+        <div class="card-header font-weight-bold">Cadastro de Dependentes</div>
+        <div class="card-body">
+            <div class="col-md-8">
                 <label>Nome do Dependente:</label>
                 @Html.TextBoxFor(model => model.Nome,
                         new
                         {
-                            @class = "form-control col-md-4",
+                            @class = "form-control col-md-8",
                             @placehoder = "Digite aqui"
                         })
-                <br />
             </div>
-            <div class="col-md-4">
-                <label>Selecione o Cliente:</label>
-                @Html.DropDownListFor(model => model.IdCliente, Model.ListagemDeClientes, "Selecione uma opção",
-                    new
-                    {
-                        @class = "form-control col-md-4"
-                    })
-                <br />
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="col-md-4">
+
+            <div class="col-md-8 mt-1">
                 <label>Data de Nascimento:</label>
                 @Html.TextBoxFor(model => model.DataNascimento,
                     new
                     {
-                        @class = "form-control col-md-4",
+                        @class = "form-control col-md-8",
                         @placeholder = "Digite aqui",
                         @type = "date"
                     })
-                <br />
+            </div>
+
+            <div class="col-md-8 mt-1">
+                <label>Selecione o Cliente:</label>
+                @Html.DropDownListFor(model => model.IdCliente, Model.ListagemDeClientes, "Selecione uma opção",
+                    new
+                    {
+                        @class = "form-control col-md-8"
+                    })
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <input type="submit" class="btn btn-success" value="Realizar Cadastro" />
             </div>
         </div>
-
-        <input type="submit" class="btn btn-success" value="Realizar Cadastro" />
     </div>
-        
 }

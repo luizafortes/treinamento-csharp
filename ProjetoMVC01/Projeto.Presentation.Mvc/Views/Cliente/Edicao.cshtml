@@ -4,49 +4,54 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h5>Atualização de Cliente</h5>
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="page-header">
+            Clientes
+        </h5>
+    </div>
+</div>
 
 @using (Html.BeginForm())
 {
-    <!-- campo oculto -->
-    @Html.HiddenFor(model => model.IdCliente)
+<div class="card">
+    <div class="card-header font-weight-bold">Atualização de Clientes</div>
+    <div class="card-body">
+        <!-- campo oculto -->
+        @Html.HiddenFor(model => model.IdCliente)
 
-    <label>Nome do Cliente:</label>
-    @Html.TextBoxFor(model => model.Nome,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placeholder = "Digite aqui"
-        })
-    <br />
+        <div class="col-md-8">
+            <label>Nome do Cliente:</label>
+            @Html.TextBoxFor(model => model.Nome,
+                new
+                {
+                    @class = "form-control col-md-4",
+                    @placeholder = "Digite aqui"
+                })
+        </div>
 
-    <label>Email:</label>
-    @Html.TextBoxFor(model => model.Email,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placeholder = "Digite aqui"
-        })
-    <br />
+        <div class="col-md-8">
+            <label>Email:</label>
+            @Html.TextBoxFor(model => model.Email,
+                new
+                {
+                    @class = "form-control col-md-4",
+                    @placeholder = "Digite aqui"
+                })
+        </div>
 
-    <label>CPF:</label>
-    @Html.TextBoxFor(model => model.Cpf,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placeholder = "Digite aqui"
-        })
-    <br />
-
-    <label>Data de Nascimento:</label>
-    @Html.TextBoxFor(model => model.DataNascimento,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placeholder = "Digite aqui"
-        })
-    <br />
-
-    <input type="submit" class="btn btn-success"
-           value="Salvar Alterações" />
+        <div class="col-md-8">
+            <label>CPF:</label>
+            @Html.TextBoxFor(model => model.Cpf,
+                new
+                {
+                    @class = "form-control col-md-4",
+                    @placeholder = "Digite aqui"
+                })
+        </div>
+        <div class="col-md-4 mt-2">
+            <input type="submit" class="btn btn-success" value="Salvar Alterações" />
+        </div>
+    </div>
+</div>
 }

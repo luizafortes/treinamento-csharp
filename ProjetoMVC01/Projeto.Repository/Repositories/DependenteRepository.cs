@@ -70,5 +70,15 @@ namespace Projeto.Repository.Repositories
                     (query, new { IdDependente = id });
             }
         }
+
+        public List<Dependente> GetByNome(string nome)
+        {
+            var query = "select * from Dependente where Nome like @Nome order by Nome asc";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Dependente>(query, new { Nome = ("%" + nome + "%") }).ToList();
+            }
+        }
     }
 }

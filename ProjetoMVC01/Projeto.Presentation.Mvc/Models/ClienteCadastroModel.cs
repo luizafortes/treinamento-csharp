@@ -20,10 +20,5 @@ namespace Projeto.Presentation.Mvc.Models
         [RegularExpression("^[0-9]{11}$", ErrorMessage = "Por favor preencha 11 dígitos numéricos sem pontos e traços.")]
         [Required(ErrorMessage = "Por Favor, informe o cpf do cliente.")]
         public string Cpf { get; set; }
-
-        [DisplayFormat(DataFormatString = "mm/dd/yyyy")]
-        [DataType(DataType.DateTime)]
-        [Required(ErrorMessage = "Por Favor, informe a data de nascimento.")]
-        public DateTime DataNascimento { get; set; }
     }
 }

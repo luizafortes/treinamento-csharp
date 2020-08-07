@@ -1,61 +1,61 @@
 ﻿@model Projeto.Presentation.Mvc.Models.ClienteCadastroModel
 
 @{
-    ViewData["Title"] = "Cadastro";
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h5>Cadastro de Clientes</h5>
-Preencha o formulário abaixo para realizar o cadastro.
-<br />
-<br />
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="page-header">
+            Clientes
+        </h5>
+    </div>
+</div>
 
 <div class="text-danger">
     @Html.ValidationSummary()
 </div>
 
-
 @using (Html.BeginForm())
 {
+<div class="card">
+    <div class="card-header font-weight-bold">Cadastro de Clientes</div>
+    <div class="card-body">
 
-    <label>Nome do Cliente:</label>
-    @Html.TextBoxFor(model => model.Nome,
-        new
-            {
-            @class = "form-control col-md-4",
-            @placehoder = "Digite aqui"
-        })
-    <br />
+        <div class="col-md-8">
+            <label>Nome do Cliente:</label>
+            @Html.TextBoxFor(model => model.Nome,
+                new
+                    {
+                    @class = "form-control col-md-4",
+                    @placehoder = "Digite aqui"
+                })
+        </div>
 
-    <label>Email:</label>
-    @Html.TextBoxFor(model => model.Email,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placehoder = "Digite aqui"
-        })
-    <br />
+        <div class="col-md-8">
+            <label>Email:</label>
+            @Html.TextBoxFor(model => model.Email,
+                new
+                {
+                    @class = "form-control col-md-4",
+                    @placehoder = "Digite aqui"
+                })
+        </div>
 
-    <label>CPF:</label>
-    @Html.TextBoxFor(model => model.Cpf,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placehoder = "Digite aqui"
-        })
-    <br />
+        <div class="col-md-8">
+            <label>CPF:</label>
+            @Html.TextBoxFor(model => model.Cpf,
+                new
+                {
+                    @class = "form-control col-md-4",
+                    @placehoder = "Digite aqui"
+                })
+        </div>
 
-    <label>Data de Nascimento:</label>
-    @Html.TextBoxFor(model => model.DataNascimento,
-        new
-        {
-            @class = "form-control col-md-4",
-            @placehoder = "Digite aqui"
-        })
-    <br />
+        <div class="col-md-4 mt-2">
 
-    <input type="submit" class="btn btn-success"
-           value="Realizar Cadastro" />
-
+            <input type="submit" class="btn btn-success" value="Realizar Cadastro" />
+        </div>
+    </div>
+</div>
 }
-

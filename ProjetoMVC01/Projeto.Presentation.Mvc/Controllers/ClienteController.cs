@@ -41,7 +41,6 @@ namespace Projeto.Presentation.Mvc.Controllers
                     cliente.Nome = model.Nome;
                     cliente.Email = model.Email;
                     cliente.Cpf = model.Cpf;
-                    cliente.DataNascimento = model.DataNascimento;
 
                     clienteRepository.Create(cliente); //gravando o cliente no banco de dados
 
@@ -66,6 +65,21 @@ namespace Projeto.Presentation.Mvc.Controllers
             try
             {
                 clientes = clienteRepository.GetAll();
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = "Erro: " + e.Message;
+            }
+            return View(clientes);
+        }
+
+        [HttpPost] //método recebe o SUBMIT
+        public IActionResult Consulta(string nome, [FromServices] ClienteRepository clienteRepository)
+        {
+            var clientes = new List<Cliente>();
+            try
+            {
+                clientes = clienteRepository.GetByNome(nome);
             }
             catch (Exception e)
             {
@@ -117,7 +131,6 @@ namespace Projeto.Presentation.Mvc.Controllers
                 model.Nome = cliente.Nome;
                 model.Email = cliente.Email;
                 model.Cpf = cliente.Cpf;
-                model.DataNascimento = cliente.DataNascimento;
             }
             catch (Exception e)
             {
@@ -140,7 +153,6 @@ namespace Projeto.Presentation.Mvc.Controllers
                     cliente.Nome = model.Nome;
                     cliente.Email = model.Email;
                     cliente.Cpf = model.Cpf;
-                    cliente.DataNascimento = model.DataNascimento;
 
                     //atualizando no banco de dados
                     clienteRepository.Update(cliente);
