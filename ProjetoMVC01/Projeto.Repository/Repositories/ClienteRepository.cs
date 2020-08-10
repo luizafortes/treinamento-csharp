@@ -103,5 +103,15 @@ namespace Projeto.Repository.Repositories
                 return connection.Query<Cliente>(query, new { Nome = ("%" + nome + "%") }).ToList();
             }
         }
+
+        public int CountDependentes(int idCliente)
+        {
+            var query = "select count(*) from Dependente where IdCliente = @IdCliente";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return connection.QueryFirstOrDefault<int>(query, new { IdCliente = idCliente });
+            }
+        }
     }
 }

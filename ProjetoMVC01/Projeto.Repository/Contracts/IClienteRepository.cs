@@ -10,5 +10,6 @@ namespace Projeto.Repository.Contracts
         List<Cliente> GetByNome(string nome);
         Cliente GetByEmail(string email);
         Cliente GetByCpf(string cpf);
+        int CountDependentes(int idCliente);
     }
 }

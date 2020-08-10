@@ -93,10 +93,10 @@ namespace Projeto.Presentation.Mvc.Controllers
         }
 
         //método de ação para abrir a página de edição de dependente
-        public IActionResult Edicao(int id, [FromServices] DependenteRepository dependenteRepository)
+        public IActionResult Edicao(int id, [FromServices] DependenteRepository dependenteRepository, [FromServices] ClienteRepository clienteRepository)
         {
             //criando um objeto da classe model
-            var model = new DependenteEdicaoModel();
+            var model = GetDependenteEdicaoModel(clienteRepository);
 
             try
             {
@@ -106,7 +106,8 @@ namespace Projeto.Presentation.Mvc.Controllers
                 //transferir os dados do cliente para a model
                 model.IdDependente = dependente.IdDependente;
                 model.Nome = dependente.Nome;
-                model.DataNascimento = Convert.ToString(dependente.DataNascimento); 
+                model.DataNascimento = dependente.DataNascimento.ToString("dd/MM/yyyy");
+                model.IdCliente = dependente.IdCliente;
             }
             catch (Exception e)
             {
@@ -116,7 +117,7 @@ namespace Projeto.Presentation.Mvc.Controllers
         }
 
         [HttpPost] //método recebe o SUBMIT do formulário
-        public IActionResult Edicao(DependenteEdicaoModel model, [FromServices] DependenteRepository dependenteRepository)
+        public IActionResult Edicao(DependenteEdicaoModel model, [FromServices] DependenteRepository dependenteRepository, [FromServices] ClienteRepository clienteRepository)
         {
             if (ModelState.IsValid)
             {
@@ -124,22 +125,23 @@ namespace Projeto.Presentation.Mvc.Controllers
                 {
                     var dependente = new Dependente();
 
-                    dependente.IdDependente = model.IdDependente;
+                    dependente.IdDependente = Convert.ToInt32(model.IdDependente);
                     dependente.Nome = model.Nome;
                     dependente.DataNascimento = DateTime.Parse(model.DataNascimento);
                     dependente.IdCliente = Convert.ToInt32(model.IdCliente);
 
                     //atualizando no banco de dados
                     dependenteRepository.Update(dependente);
+
                     TempData["MensagemSucesso"] = "Dependente atualizado com sucesso.";
                 }
                 catch (Exception e)
                 {
-                    TempData["MensagemErro"] = e.Message;
-                }
+                    TempData["MensagemErro"] = "Erro: " + e.Message;
+                }                
             }
-
-            return View(); //abrir uma página
+            var result = GetDependenteEdicaoModel(clienteRepository);
+            return View(result);
         }
 
         //função que carrega os clientes da página dependente
@@ -149,18 +151,7 @@ namespace Projeto.Presentation.Mvc.Controllers
 
             try
             {
-                //carregar a lista com os clientes (campo de seleção)
-                model.ListagemDeClientes = new List<SelectListItem>();
-                //percorrer todos os clientes obtidos do banco de dados
-                foreach (var item in clienteRepository.GetAll())
-                {
-                    //criando 1 item do campo de seleção
-                    var opcao = new SelectListItem();
-                    opcao.Value = item.IdCliente.ToString();
-                    opcao.Text = item.Nome;
-
-                    model.ListagemDeClientes.Add(opcao); //adicionando
-                }
+                model.ListagemDeClientes = GetClientes(clienteRepository);
             }
             catch (Exception e)
             {
@@ -168,6 +159,41 @@ namespace Projeto.Presentation.Mvc.Controllers
             }
 
             return model;
+        }
+
+        //função que carrega os clientes da página Edição de dependente
+        private DependenteEdicaoModel GetDependenteEdicaoModel(ClienteRepository clienteRepository)
+        {
+            var model = new DependenteEdicaoModel();
+
+            try
+            {
+                model.ListagemDeClientes = GetClientes(clienteRepository);
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = "Erro: " + e.Message;
+            }
+
+            return model;
+        }
+
+        private List<SelectListItem> GetClientes(ClienteRepository clienteRepository)
+        {
+            //carregar a lista com os clientes (campo de seleção)
+            var listagemDeClientes = new List<SelectListItem>();
+            //percorrer todos os clientes obtidos do banco de dados
+            foreach (var item in clienteRepository.GetAll())
+            {
+                //criando 1 item do campo de seleção
+                var opcao = new SelectListItem();
+                opcao.Value = item.IdCliente.ToString();
+                opcao.Text = item.Nome;
+
+                listagemDeClientes.Add(opcao); //adicionando
+            }
+
+            return listagemDeClientes;
         }
     }
 }

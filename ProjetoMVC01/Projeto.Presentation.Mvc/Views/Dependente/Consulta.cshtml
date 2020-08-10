@@ -31,7 +31,7 @@
         <tr>
             <th>Nome do Dependente</th>
             <th>Data de Nascimento</th>
-            <th>Cliente</th>
+            <th>Cliente</th>                                   
             <th>Operações</th>
         </tr>
     </thead>
@@ -41,7 +41,11 @@
             <tr>
                 <td>@item.Nome</td>
                 <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
-                <td>@item.IdCliente</td>
+                <td>
+                    @item.Cliente.Nome <br />
+                    CPF: @item.Cliente.Cpf <br />
+                    @item.Cliente.Email
+                </td>
                 <td>
                     <a href="/Dependente/Edicao?id=@item.IdDependente" class="btn btn-primary btn-sm">
                         Atualizar

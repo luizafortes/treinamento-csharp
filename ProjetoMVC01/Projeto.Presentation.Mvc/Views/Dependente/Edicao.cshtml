@@ -12,37 +12,50 @@
     </div>
 </div>
 
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
 @using (Html.BeginForm())
 {
-<div class="card">
-    <div class="card-header font-weight-bold">Cadastro de Dependentes</div>
-    <div class="card-body">
-        <!-- campo oculto -->
-        @Html.HiddenFor(model => model.IdDependente)
+    <div class="card">
+        <div class="card-header font-weight-bold">Cadastro de Dependentes</div>
+        <div class="card-body">
+            <!-- campo oculto -->
+            @Html.HiddenFor(model => model.IdDependente)
 
-        <div class="col-md-8">
-            <label>Nome do Dependente:</label>
-            @Html.TextBoxFor(model => model.Nome,
-                new
-                {
-                    @class = "form-control col-md-4",
-                    @placeholder = "Digite aqui"
-                })
-        </div>
+            <div class="col-md-8">
+                <label>Nome do Dependente:</label>
+                @Html.TextBoxFor(model => model.Nome,
+                    new
+                    {
+                        @class = "form-control col-md-4",
+                        @placeholder = "Digite aqui"
+                    })
+            </div>
 
-        <div class="col-md-8 mt-1">
-            <label>Data de Nascimento:</label>
-            @Html.TextBoxFor(model => model.DataNascimento,
-                new
-                {
-                    @class = "form-control col-md-8",
-                    @placeholder = "Digite aqui",
-                    @type = "date"
-                })
-        </div>
-        <div class="col-md-4 mt-2">
-            <input type="submit" class="btn btn-success" value="Salvar Alterações" />
+            <div class="col-md-8 mt-1">
+                <label>Data de Nascimento:</label>
+                @Html.TextBoxFor(model => model.DataNascimento,
+                    new
+                    {
+                        @class = "form-control col-md-8",
+                        @placeholder = "Digite aqui"
+                    })
+            </div>
+
+            <div class="col-md-8 mt-1">
+                <label>Selecione o Cliente:</label>
+                @Html.DropDownListFor(model => model.IdCliente, Model.ListagemDeClientes, "Selecione uma opção",
+                    new
+                    {
+                        @class = "form-control col-md-8"
+                    })
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <input type="submit" class="btn btn-success" value="Salvar Alterações" />
+            </div>
         </div>
     </div>
-</div>
 }

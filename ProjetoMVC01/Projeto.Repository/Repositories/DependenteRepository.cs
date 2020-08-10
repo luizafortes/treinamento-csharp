@@ -31,7 +31,7 @@ namespace Projeto.Repository.Repositories
 
         public void Update(Dependente entity)
         {
-            var query = "update Dependente set Nome = @Nome, DataNascimento = @DataNascimento = @IdCliente "
+            var query = "update Dependente set Nome = @Nome, DataNascimento = @DataNascimento, IdCliente = @IdCliente "
                       + "where IdDependente = @IdDependente";
 
             using (var connection = new SqlConnection(connectionString))
@@ -52,11 +52,21 @@ namespace Projeto.Repository.Repositories
 
         public List<Dependente> GetAll()
         {
-            var query = "select * from Dependente order by Nome asc";
+            var query = "select * from Dependente d " 
+                      + "inner join Cliente c " 
+                      + "on d.IdCliente = c.IdCliente " 
+                      + "order by d.Nome asc";
 
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Dependente>(query).ToList();
+                return connection.Query
+                    (query, (Dependente d, Cliente c) => 
+                    {
+                        d.Cliente = c;
+                        return d;
+                    },
+                    splitOn: "IdCliente")
+                    .ToList();
             }
         }
 
@@ -73,11 +83,23 @@ namespace Projeto.Repository.Repositories
 
         public List<Dependente> GetByNome(string nome)
         {
-            var query = "select * from Dependente where Nome like @Nome order by Nome asc";
+            var query = "select * from Dependente d "
+                      + "inner join Cliente c "
+                      + "on d.IdCliente = c.IdCliente "
+                      + "where d.Nome like @Nome "
+                      + "order by d.Nome asc";
 
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Dependente>(query, new { Nome = ("%" + nome + "%") }).ToList();
+                return connection.Query
+                    (query, (Dependente d, Cliente c) =>
+                    {
+                        d.Cliente = c;
+                        return d;
+                    },
+                    new { Nome = ("%" + nome + "%") },
+                    splitOn: "IdCliente"
+                    ).ToList();
             }
         }
     }

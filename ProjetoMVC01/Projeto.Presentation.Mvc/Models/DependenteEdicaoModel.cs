@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations; //validações
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +9,7 @@ namespace Projeto.Presentation.Mvc.Models
 {
     public class DependenteEdicaoModel
     {
-        public int IdDependente { get; set; } //campo oculto
+        public int? IdDependente { get; set; } //campo oculto
 
         [MinLength(6, ErrorMessage = "Por favor informe no mínimo {1} caracteres.")]
         [MaxLength(150, ErrorMessage = "Por favor informe no máximo {1} caracteres.")]

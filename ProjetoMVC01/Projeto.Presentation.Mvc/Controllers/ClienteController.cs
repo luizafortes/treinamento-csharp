@@ -98,9 +98,19 @@ namespace Projeto.Presentation.Mvc.Controllers
                 //verificar se o cliente foi obtido no banco de dados
                 if (cliente != null)
                 {
-                    //excluindo o cliente
-                    clienteRepository.Delete(cliente);
-                    TempData["MensagemSucesso"] = "Cliente excluído com sucesso.";                    
+                    //verificar se o cliente possui dependentes
+                    var qtdDependentes = clienteRepository.CountDependentes(cliente.IdCliente);
+                    if (qtdDependentes == 0)
+                    {
+                        //excluindo o cliente
+                        clienteRepository.Delete(cliente);
+                        TempData["MensagemSucesso"] = "Cliente excluído com sucesso.";
+                    }
+                    else
+                    {
+                        TempData["MensagemErro"] = $"Não é possivel excluir o cliente selecionado ."
+                                                 + $"pois ele possui {qtdDependentes} dependente(s).";
+                    }                                   
                 }
                 else
                 {
