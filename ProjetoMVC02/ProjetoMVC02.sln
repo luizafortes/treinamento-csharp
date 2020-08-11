@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Layer", "1 - Presentation Layer", "{ACFBD42D-9F6A-4C3E-87EE-D865F743C2D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Repository Layer", "2 - Repository Layer", "{079AA22B-D605-48BD-9D1D-F9F800F70D69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Presentation.Mvc", "Projeto.Presentation.Mvc\Projeto.Presentation.Mvc.csproj", "{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77} = {ACFBD42D-9F6A-4C3E-87EE-D865F743C2D2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0CDE3C3-004D-4F92-B64F-6732A83A8B87}
+	EndGlobalSection
+EndGlobal
