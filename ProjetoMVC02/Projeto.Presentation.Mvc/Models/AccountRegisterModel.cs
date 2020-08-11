@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Projeto.Presentation.Mvc.Models
 {
-    public class AccountLoginModel
+    public class AccountRegisterModel
     {
+        [MinLength(6, ErrorMessage = "Por favor, informe no mínimo {1} caracteres.")]
+        [MaxLength(100, ErrorMessage = "Por favor, informe no máximo {1} caracteres.")]
+        public string Nome { get; set; }
+
         [EmailAddress(ErrorMessage = "Por favor, informe um endereço de email válido.")]
         [Required(ErrorMessage = "Por favor, informe o email de acesso.")]
         public string Email { get; set; }
@@ -16,5 +20,9 @@ namespace Projeto.Presentation.Mvc.Models
         [MaxLength(20, ErrorMessage = "Por favor, informe no máximo {1} caracteres.")]
         [Required(ErrorMessage = "Por favor, informe a senha de acesso.")]
         public string Senha { get; set; }
+
+        [Compare("Senha", ErrorMessage = "Senhas não conferem")]
+        [Required(ErrorMessage = "Por favor, confirme a senha de acesso.")]
+        public string SenhaConfirmacao { get; set; }
     }
 }
