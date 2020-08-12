@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Layer", "1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Repository Layer", "2 - Repository Layer", "{079AA22B-D605-48BD-9D1D-F9F800F70D69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Presentation.Mvc", "Projeto.Presentation.Mvc\Projeto.Presentation.Mvc.csproj", "{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projeto.Presentation.Mvc", "Projeto.Presentation.Mvc\Projeto.Presentation.Mvc.csproj", "{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Infra.Data", "Projeto.Infra.Data\Projeto.Infra.Data.csproj", "{E9C5F700-A340-48C1-974F-FED1AA19FF3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +21,17 @@ Global
 		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C5F700-A340-48C1-974F-FED1AA19FF3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C5F700-A340-48C1-974F-FED1AA19FF3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C5F700-A340-48C1-974F-FED1AA19FF3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C5F700-A340-48C1-974F-FED1AA19FF3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A3AFDDE5-8DBA-4F95-95DF-C01BF5E65F77} = {ACFBD42D-9F6A-4C3E-87EE-D865F743C2D2}
+		{E9C5F700-A340-48C1-974F-FED1AA19FF3B} = {079AA22B-D605-48BD-9D1D-F9F800F70D69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0CDE3C3-004D-4F92-B64F-6732A83A8B87}
