@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,9 @@ namespace Projeto.Presentation.Mvc
             //Habilitar o projeto para MVC
             services.AddControllersWithViews();
 
+            //Habilitar a autenticação por meio de cookies
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
             //ler a connectionString mapeada no arquivo appsettings.json
             var connectionString = Configuration.GetConnectionString("ProjetoMVC02");
 
@@ -50,8 +54,14 @@ namespace Projeto.Presentation.Mvc
             }
 
             app.UseStaticFiles(); //habilitar a pasta \wwwroot
+
             app.UseRouting(); //habilitar a navegação (Controllers/Views)
 
+            app.UseCookiePolicy(); //habilitar autenticação por meio de cookies
+            app.UseAuthentication(); //habilitar autenticação por meio de cookies
+            app.UseAuthorization(); //habilitar autenticação por meio de cookies
+
+            //mapeamento da rota inicial do projeto
             app.UseEndpoints(
                 endpoints => {
                 endpoints.MapControllerRoute(

@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h5>Consulta de Compromissos</h5>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-3">
+            <label>Data de:</label>
+            <input type="date" name="DataMin" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Até:</label>
+            <input type="date" name="DataMax" class="form-control" />
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-12">
+            <input type="submit" value="Pesquisar Compromissos"
+                   class="btn btn-sm btn-success" />
+        </div>
+    </div>
+}
+
+<br />
+
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Título do Compromisso</th>
+            <th>Data/Hora de Início</th>
+            <th>Data/Hora de Término</th>
+            <th>Operações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>
+                <a href="#" class="btn btn-sm btn-primary">Atualizar</a>
+                <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                Quantidade de compromissos: 0
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+

@@ -14,5 +14,15 @@ namespace Projeto.Presentation.Mvc.Controllers
         {
             return View();
         }
+
+        public IActionResult CadastroCompromisso()
+        {
+            return View();
+        }
+
+        public IActionResult ConsultaCompromisso()
+        {
+            return View();
+        }
     }
 }
