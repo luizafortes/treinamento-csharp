@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Dapper;
+
+using Projeto.Infra.Data.Contracts;
+using Projeto.Infra.Data.Entities;
+
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-using Dapper;
-
-using Projeto.Infra.Data.Contracts;
-using Projeto.Infra.Data.Entities;
-
 namespace Projeto.Infra.Data.Repositories
 {
     public class CompromissoRepository : ICompromissoRepository
     {
-        //atributo - readonly: somente o construtor pode modificar o valor a variável)
+        //atributo
         private readonly string connectionString;
 
-        //construtor para inicializar o atributo connectionString
+        //construtor para inicializar o atributo
         public CompromissoRepository(string connectionString)
         {
             this.connectionString = connectionString;
@@ -27,7 +27,6 @@ namespace Projeto.Infra.Data.Repositories
             var query = "insert into Compromisso(Titulo, Descricao, DataInicio, HoraInicio, DataFim, HoraFim, IdUsuario) "
                       + "values(@Titulo, @Descricao, @DataInicio, @HoraInicio, @DataFim, @HoraFim, @IdUsuario)";
 
-            //conectando no banco de dados
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Execute(query, entity);
@@ -36,11 +35,10 @@ namespace Projeto.Infra.Data.Repositories
 
         public void Update(Compromisso entity)
         {
-            var query = "Update Compromisso set Titulo = @Titulo, Descricao = @Descricao, DataInicio = @DataInicio, " 
-                      + "HoraInicio = @HoraInicio, DataFim = @DataFim, HoraFim = @HoraFim, IdUsuario =  @IdUsuario "
+            var query = "update Compromisso set Titulo = @Titulo, Descricao = @Descricao, DataInicio = @DataInicio, "
+                      + "HoraInicio = @HoraInicio, DataFim = @DataFim, HoraFim = @HoraFim "
                       + "where IdCompromisso = @IdCompromisso";
 
-            //conectando no banco de dados
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Execute(query, entity);
@@ -49,9 +47,8 @@ namespace Projeto.Infra.Data.Repositories
 
         public void Delete(Compromisso entity)
         {
-            var query = "delete from Compromisso where IdCompromisso = @IdCompromisso ";
+            var query = "delete from Compromisso where IdCompromisso = @IdCompromisso";
 
-            //conectando no banco de dados
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Execute(query, entity);
@@ -60,34 +57,38 @@ namespace Projeto.Infra.Data.Repositories
 
         public List<Compromisso> GetAll()
         {
-            var query = "select * from Compromisso";
+            var query = "select * from Compromisso order by DataInicio desc";
 
-            //conectando no banco de dados
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Compromisso>(query).ToList(); ;
+                return connection.Query<Compromisso>(query).ToList();
             }
         }
 
         public Compromisso GetById(int id)
         {
-            var query = "select * from Compromisso where IdUsuario = @IdUsuario";
+            var query = "select * from Compromisso where IdCompromisso = @IdCompromisso";
 
-            //conectando no banco de dados
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.QueryFirstOrDefault<Compromisso>(query, new { IdCompromisso = id }); ;
+                return connection.QueryFirstOrDefault<Compromisso>
+                    (query, new { IdCompromisso = id });
             }
         }
 
-        public List<Compromisso> GetByDatas(DateTime dataMin, DateTime dataMax)
+        public List<Compromisso> GetByDatas(DateTime dataMin, DateTime dataMax, int idUsuario)
         {
-            var query = "select * from Compromisso where DataInicio between @DataMin and @DataMax";
+            var query = "select * from Compromisso where IdUsuario = @IdUsuario and DataInicio between @DataMin and @DataMax";
 
-            //conectando no banco de dados
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Compromisso>(query, new { DataMin = dataMin, DataMax = dataMax}).ToList(); ;
+                return connection.Query<Compromisso>
+                    (query, new
+                    {
+                        IdUsuario = idUsuario,
+                        DataMin = dataMin,
+                        DataMax = dataMax
+                    }).ToList();
             }
         }
     }

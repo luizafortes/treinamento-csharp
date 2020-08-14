@@ -1,9 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
+
+using Projeto.Infra.Data.Entities;
+using Projeto.Infra.Data.Repositories;
+using Projeto.Presentation.Mvc.Models;
 
 namespace Projeto.Presentation.Mvc.Controllers
 {
@@ -20,8 +27,189 @@ namespace Projeto.Presentation.Mvc.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult CadastroCompromisso(CompromissoCadastroModel model,
+            [FromServices] UsuarioRepository usuarioRepository,
+            [FromServices] CompromissoRepository compromissoRepository)
+        {
+            //verificar se todos os campos da model passaram nas regras de validação
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //buscar no banco de dados os dados do usuario autenticado atraves do email
+                    var usuario = usuarioRepository.GetByEmail(User.Identity.Name);
+
+                    var compromisso = new Compromisso();
+                    compromisso.Titulo = model.Titulo;
+                    compromisso.Descricao = model.Descricao;
+                    compromisso.DataInicio = DateTime.Parse(model.DataInicio);
+                    compromisso.HoraInicio = TimeSpan.Parse(model.HoraInicio);
+                    compromisso.DataFim = DateTime.Parse(model.DataFim);
+                    compromisso.HoraFim = TimeSpan.Parse(model.HoraFim);
+                    compromisso.IdUsuario = usuario.IdUsuario;
+
+                    //gravar o compromisso no banco de dados
+                    compromissoRepository.Create(compromisso);
+
+                    TempData["MensagemSucesso"] = $"Compromisso {compromisso.Titulo} cadastrado com sucesso.";
+                    ModelState.Clear(); //limpar o conteudo do formulario
+                }
+                catch (Exception e)
+                {
+                    TempData["MensagemErro"] = e.Message;
+                }
+            }
+
+            return View();
+        }
+
         public IActionResult ConsultaCompromisso()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ConsultaCompromisso(string dataMin, string dataMax,
+            [FromServices] UsuarioRepository usuarioRepository,
+            [FromServices] CompromissoRepository compromissoRepository)
+        {
+            //lista de compromissos
+            var lista = new List<Compromisso>();
+
+            try
+            {
+                //verificando se as datas foram preenchidas no formulário
+                if (!string.IsNullOrEmpty(dataMin) && !string.IsNullOrEmpty(dataMax))
+                {
+                    //verificando se a dataMin é menor que a dataMax
+                    if (DateTime.Parse(dataMin) < DateTime.Parse(dataMax))
+                    {
+                        //obter o usuario que está autenticado no projeto
+                        var usuario = usuarioRepository.GetByEmail(User.Identity.Name);
+
+                        //pesquisar os compromissos no banco de dados
+                        lista = compromissoRepository.GetByDatas
+                            (DateTime.Parse(dataMin), DateTime.Parse(dataMax), usuario.IdUsuario);
+
+                        TempData["DataMin"] = dataMin;
+                        TempData["DataMax"] = dataMax;
+                    }
+                    else
+                    {
+                        TempData["MensagemErro"] = "Por favor, o período de datas informado é inválido.";
+                    }
+                }
+                else
+                {
+                    TempData["MensagemErro"] = "Por favor, informe o período de datas para a pesquisa";
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = "Erro: " + e.Message;
+            }
+
+            //enviando os dados para a página
+            return View(lista);
+        }
+
+        public IActionResult ExclusaoCompromisso(int id,
+            [FromServices] UsuarioRepository usuarioRepository,
+            [FromServices] CompromissoRepository compromissoRepository)
+        {
+            try
+            {
+                //buscar o compromisso no banco de dados
+                var compromisso = compromissoRepository.GetById(id);
+                //buscar o usuario que está autenticado
+                var usuario = usuarioRepository.GetByEmail(User.Identity.Name);
+
+                //verificando se o compromisso pertence ao usuario autenticado
+                if (compromisso.IdUsuario == usuario.IdUsuario)
+                {
+                    compromissoRepository.Delete(compromisso);
+                    TempData["MensagemSucesso"] = "Compromisso excluído com sucesso.";
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+
+            //redirecionamento
+            return RedirectToAction("ConsultaCompromisso");
+        }
+
+        public IActionResult EdicaoCompromisso(int id,
+            [FromServices] UsuarioRepository usuarioRepository,
+            [FromServices] CompromissoRepository compromissoRepository)
+        {
+            //classe model utilizada no formulário
+            var model = new CompromissoEdicaoModel();
+
+            try
+            {
+                //buscar o compromisso pelo id
+                var compromisso = compromissoRepository.GetById(id);
+                //buscar o usuario no banco de dados
+                var usuario = usuarioRepository.GetByEmail(User.Identity.Name);
+
+                //verificando se o compromisso pertence ao usuario autenticado
+                if (compromisso.IdUsuario == usuario.IdUsuario)
+                {
+                    //transferindo os dados do compromisso para a model
+                    model.IdCompromisso = compromisso.IdCompromisso;
+                    model.Titulo = compromisso.Titulo;
+                    model.Descricao = compromisso.Descricao;
+                    model.DataInicio = compromisso.DataInicio.ToString("dd/MM/yyyy");
+                    model.HoraInicio = compromisso.HoraInicio.ToString(@"hh\:mm");
+                    model.DataFim = compromisso.DataFim.ToString("dd/MM/yyyy");
+                    model.HoraFim = compromisso.HoraFim.ToString(@"hh\:mm");
+                }
+                else
+                {
+                    return RedirectToAction("ConsultaCompromisso");
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+
+            //enviando a model para a página
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EdicaoCompromisso(CompromissoEdicaoModel model,
+           [FromServices] CompromissoRepository compromissoRepository)
+        {
+            //verificar se todos os campos da model passaram nas regras de validação
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var compromisso = new Compromisso();
+                    compromisso.IdCompromisso = model.IdCompromisso;
+                    compromisso.Titulo = model.Titulo;
+                    compromisso.Descricao = model.Descricao;
+                    compromisso.DataInicio = DateTime.Parse(model.DataInicio);
+                    compromisso.HoraInicio = TimeSpan.Parse(model.HoraInicio);
+                    compromisso.DataFim = DateTime.Parse(model.DataFim);
+                    compromisso.HoraFim = TimeSpan.Parse(model.HoraFim);
+
+                    //atualizar o compromisso no banco de dados
+                    compromissoRepository.Update(compromisso);
+
+                    TempData["MensagemSucesso"] = $"Compromisso {compromisso.Titulo} atualizado com sucesso.";
+                }
+                catch (Exception e)
+                {
+                    TempData["MensagemErro"] = e.Message;
+                }
+            }
+
             return View();
         }
     }
