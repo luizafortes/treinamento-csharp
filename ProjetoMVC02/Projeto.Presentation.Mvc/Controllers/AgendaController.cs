@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 
 using Projeto.Infra.Data.Entities;
 using Projeto.Infra.Data.Repositories;
 using Projeto.Presentation.Mvc.Models;
+using Projeto.Presentation.Mvc.Reports;
 
 namespace Projeto.Presentation.Mvc.Controllers
 {
@@ -48,6 +50,7 @@ namespace Projeto.Presentation.Mvc.Controllers
                     compromisso.DataFim = DateTime.Parse(model.DataFim);
                     compromisso.HoraFim = TimeSpan.Parse(model.HoraFim);
                     compromisso.IdUsuario = usuario.IdUsuario;
+                    compromisso.Categoria = model.Categoria;
 
                     //gravar o compromisso no banco de dados
                     compromissoRepository.Create(compromisso);
@@ -166,6 +169,7 @@ namespace Projeto.Presentation.Mvc.Controllers
                     model.HoraInicio = compromisso.HoraInicio.ToString(@"hh\:mm");
                     model.DataFim = compromisso.DataFim.ToString("dd/MM/yyyy");
                     model.HoraFim = compromisso.HoraFim.ToString(@"hh\:mm");
+                    model.Categoria = compromisso.Categoria;
                 }
                 else
                 {
@@ -198,6 +202,7 @@ namespace Projeto.Presentation.Mvc.Controllers
                     compromisso.HoraInicio = TimeSpan.Parse(model.HoraInicio);
                     compromisso.DataFim = DateTime.Parse(model.DataFim);
                     compromisso.HoraFim = TimeSpan.Parse(model.HoraFim);
+                    compromisso.Categoria = model.Categoria;
 
                     //atualizar o compromisso no banco de dados
                     compromissoRepository.Update(compromisso);
@@ -212,5 +217,40 @@ namespace Projeto.Presentation.Mvc.Controllers
 
             return View();
         }
+
+        //método eecutado pelo LINK da página
+        public void GerarRelatorio(
+            [FromServices] CompromissoRepository compromissoRepository,
+            [FromServices] UsuarioRepository usuarioRepository
+            )
+        {
+            try
+            {
+                //lista de compromissos
+                var compromissos = compromissoRepository.GetAll();
+                //usuário autenticado no sistema
+                var usuario = usuarioRepository.GetByEmail(User.Identity.Name);
+
+                //gerar o relatório PDF..
+                var compromissoReport = new CompromissoReport();
+                var pdf = compromissoReport.ObterRelatorioDeCompromissos(compromissos, usuario);
+
+                //variável para definir o nome do arquivo de download
+                var nomeArquivo = $"relatorio_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.pdf";
+
+                //DOWNLOAD do documento..
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.Headers.Add("content-disposition", $"attachment; filename={nomeArquivo}");
+                Response.Body.WriteAsync(pdf, 0, pdf.Length);
+                Response.Body.Flush();
+                Response.StatusCode = StatusCodes.Status200OK;
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model Projeto.Presentation.Mvc.Models.CompromissoCadastroModel
+@using Projeto.Infra.Data.Enums
 
 @{
     Layout = "~/Views/Shared/Layout.cshtml";
@@ -20,6 +21,19 @@
              })
             <span class="text-danger">
                 @Html.ValidationMessageFor(model => model.Titulo)
+            </span>
+            <br />
+
+            <label>Categoria do Compromisso:</label>
+            @Html.DropDownListFor(model => model.Categoria,
+                Html.GetEnumSelectList(typeof(Categoria)),
+                "Escolha uma opção",
+             new
+             {
+                 @class = "form-control"
+             })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.Categoria)
             </span>
             <br />
 

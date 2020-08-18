@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Projeto.Infra.Data.Enums;
+
 namespace Projeto.Infra.Data.Entities
 {
     public class Compromisso
@@ -38,5 +40,9 @@ namespace Projeto.Infra.Data.Entities
         //Relacionamento com Usuario
         //Associação TER-1
         public Usuario Usuario { get; set; }
+
+        //Relacionamento com Categoria
+        //Associação TER 1 (ENUM)
+        public Categoria Categoria { get; set; }
     }
 }

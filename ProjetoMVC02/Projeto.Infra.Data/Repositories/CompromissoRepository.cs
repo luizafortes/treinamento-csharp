@@ -24,8 +24,8 @@ namespace Projeto.Infra.Data.Repositories
 
         public void Create(Compromisso entity)
         {
-            var query = "insert into Compromisso(Titulo, Descricao, DataInicio, HoraInicio, DataFim, HoraFim, IdUsuario) "
-                      + "values(@Titulo, @Descricao, @DataInicio, @HoraInicio, @DataFim, @HoraFim, @IdUsuario)";
+            var query = "insert into Compromisso(Titulo, Descricao, DataInicio, HoraInicio, DataFim, HoraFim, IdUsuario, Categoria) "
+                      + "values(@Titulo, @Descricao, @DataInicio, @HoraInicio, @DataFim, @HoraFim, @IdUsuario, @Categoria)";
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -36,7 +36,7 @@ namespace Projeto.Infra.Data.Repositories
         public void Update(Compromisso entity)
         {
             var query = "update Compromisso set Titulo = @Titulo, Descricao = @Descricao, DataInicio = @DataInicio, "
-                      + "HoraInicio = @HoraInicio, DataFim = @DataFim, HoraFim = @HoraFim "
+                      + "HoraInicio = @HoraInicio, DataFim = @DataFim, HoraFim = @HoraFim, Categoria = @Categoria "
                       + "where IdCompromisso = @IdCompromisso";
 
             using (var connection = new SqlConnection(connectionString))
@@ -91,5 +91,7 @@ namespace Projeto.Infra.Data.Repositories
                     }).ToList();
             }
         }
+
+
     }
 }

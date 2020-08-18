@@ -47,6 +47,7 @@
             <thead>
                 <tr>
                     <th>Título do Compromisso</th>
+                    <th>Categoria</th>
                     <th>Data/Hora de Início</th>
                     <th>Data/Hora de Término</th>
                     <th>Operações</th>
@@ -55,28 +56,29 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.Titulo</td>
-                        <td>
-                            @item.DataInicio.ToString("dd/MM/yyyy") às
-                            @item.HoraInicio.ToString(@"hh\:mm")
-                        </td>
-                        <td>
-                            @item.DataFim.ToString("dd/MM/yyyy") às
-                            @item.HoraFim.ToString(@"hh\:mm")
-                        </td>
-                        <td>
-                            <a href="/Agenda/EdicaoCompromisso?id=@item.IdCompromisso"
-                               class="btn btn-sm btn-primary">
-                                Atualizar
-                            </a>
-                            <a href="/Agenda/ExclusaoCompromisso?id=@item.IdCompromisso"
-                               onclick="return confirm('Deseja realmente excluir este registro?');"
-                               class="btn btn-sm btn-danger">
-                                Excluir
-                            </a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@item.Titulo</td>
+                    <td>@item.Categoria</td>
+                    <td>
+                        @item.DataInicio.ToString("dd/MM/yyyy") às
+                        @item.HoraInicio.ToString(@"hh\:mm")
+                    </td>
+                    <td>
+                        @item.DataFim.ToString("dd/MM/yyyy") às
+                        @item.HoraFim.ToString(@"hh\:mm")
+                    </td>
+                    <td>
+                        <a href="/Agenda/EdicaoCompromisso?id=@item.IdCompromisso"
+                           class="btn btn-sm btn-primary">
+                            Atualizar
+                        </a>
+                        <a href="/Agenda/ExclusaoCompromisso?id=@item.IdCompromisso"
+                           onclick="return confirm('Deseja realmente excluir este registro?');"
+                           class="btn btn-sm btn-danger">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
                 }
             </tbody>
             <tfoot>

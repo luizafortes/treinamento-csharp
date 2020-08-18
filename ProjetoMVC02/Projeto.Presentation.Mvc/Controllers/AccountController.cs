@@ -43,7 +43,7 @@ namespace Projeto.Presentation.Mvc.Controllers
                     //verificando se o usuario foi encontrado
                     if (usuario != null)
                     {
-                        //autenticando!!
+                        //criando a permissão de acesso do usuário
                         var identity = new ClaimsIdentity(
                             new[] { new Claim(ClaimTypes.Name, usuario.Email) },
                             CookieAuthenticationDefaults.AuthenticationScheme);
@@ -52,13 +52,13 @@ namespace Projeto.Presentation.Mvc.Controllers
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                             new ClaimsPrincipal(identity));
 
-                        //redirecionando
+                        //redirecionamento
                         return RedirectToAction("Index", "Agenda");
                     }
                     else
                     {
                         //lançar uma exceção
-                        throw new Exception("Usuário ou senha inválido. Acesso Negado.");
+                        throw new Exception("Usuário inválido. Acesso Negado.");
                     }
                 }
                 catch (Exception e)
