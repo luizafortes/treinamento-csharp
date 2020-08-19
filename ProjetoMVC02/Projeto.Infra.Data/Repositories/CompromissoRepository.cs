@@ -1,6 +1,7 @@
 ﻿using Dapper;
 
 using Projeto.Infra.Data.Contracts;
+using Projeto.Infra.Data.Dtos;
 using Projeto.Infra.Data.Entities;
 
 using System;
@@ -92,6 +93,16 @@ namespace Projeto.Infra.Data.Repositories
             }
         }
 
+        public List<ResumoCategoriaDto> GetResumoCategoria(int idUsuario)
+        {
+            var query = "select Categoria, count(*) as Quantidade from Compromisso "
+                      + "where IdUsuario = @IdUsuario group by Categoria";
 
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<ResumoCategoriaDto>
+                    (query, new { IdUsuario = idUsuario }).ToList();
+            }
+        }
     }
 }

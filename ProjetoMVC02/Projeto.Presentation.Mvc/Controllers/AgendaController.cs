@@ -252,5 +252,38 @@ namespace Projeto.Presentation.Mvc.Controllers
             }
         }
 
+        //método utilizado para retornar os dados para o gráfico
+        public JsonResult ObterDadosGrafico(
+            [FromServices] CompromissoRepository compromissoRepository,
+            [FromServices] UsuarioRepository usuarioRepository
+            )
+        {
+            try
+            {
+                //obter o usuário que está autenticado
+                var usuario = usuarioRepository.GetByEmail(User.Identity.Name);
+
+                //consultar o resumo de compromissos por categoria
+                var compromissos = compromissoRepository.GetResumoCategoria(usuario.IdUsuario);
+
+                //modelar os dados da consulta no padrão do HIGHCHARTS
+                var result = new List<HighChartsModel>();
+                foreach (var item in compromissos)
+                {
+                    var model = new HighChartsModel();
+                    model.name = item.Categoria.ToString();
+                    model.data = new List<int>() { item.Quantidade };
+
+                    result.Add(model);
+                }
+
+                return Json(result);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
     }
 }
