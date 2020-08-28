@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
 using Projeto.Infra.Data.Repositories;
 
 namespace Projeto.Presentation.Api
@@ -30,21 +28,19 @@ namespace Projeto.Presentation.Api
         {
             services.AddControllers();
 
-            //obter a connectionstring do banco de dados
-            var connectionString = Configuration.GetConnectionString("ProjetoAPI");
+            //Configuração para inicializar as classes do repositorio..
+            var connectionString = Configuration.GetConnectionString("ProjetoAPI02");
+            services.AddTransient(map => new UsuarioRepository(connectionString));
 
-            //configurando as classes do repositório para serem inicializadas
-            services.AddTransient(map => new ClienteRepository(connectionString));
-
-            //configuração da geração da documentação da API
+            //configuração do swagger
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "API para Controle de Clientes",
+                        Title = "API para Autenticação de Usuários",
                         Version = "v1",
-                        Description = "Projeto desenvolvido em NET CORE 3 API com Dapper",
+                        Description = "Projeto desenvolvido em NET CORE 3.1 API com Dapper",
                         Contact = new OpenApiContact
                         {
                             Name = "COTI Informática - Curso de C# WebDeveloper",
@@ -53,15 +49,6 @@ namespace Projeto.Presentation.Api
                         }
                     });
             });
-
-            //configuração do CORS
-            services.AddCors(
-                s => s.AddPolicy("DefaultPolicy",
-                builder => {
-                    builder.AllowAnyOrigin()  //qualquer projeto pode enviar requisições para API
-                           .AllowAnyMethod()  //API aceita qualquer requisições POST, PUT, DELETE, GET etc.
-                           .AllowAnyHeader(); //API aceita qualquer parametro de cabeçalho
-                }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,12 +61,8 @@ namespace Projeto.Presentation.Api
 
             app.UseRouting();
 
-            //habilitar a configuração de CORS
-            app.UseCors("DefaultPolicy");
-
             app.UseAuthorization();
 
-            //configuração da geração da documentação da API
             app.UseSwagger();
             app.UseSwaggerUI(s => { s.SwaggerEndpoint("/swagger/v1/swagger.json", "Projeto"); });
 
@@ -90,3 +73,4 @@ namespace Projeto.Presentation.Api
         }
     }
 }
+
