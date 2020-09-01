@@ -7,9 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation Layer", "1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Repository Layer", "2 - Repository Layer", "{4202F741-12F1-4903-A60E-9E1421AD6E18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Presentation.Api", "Projeto.Presentation.Api\Projeto.Presentation.Api.csproj", "{DBC26DC4-BF6F-481E-8002-BA718D54AC72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projeto.Presentation.Api", "Projeto.Presentation.Api\Projeto.Presentation.Api.csproj", "{DBC26DC4-BF6F-481E-8002-BA718D54AC72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Infra.Data", "Projeto.Infra.Data\Projeto.Infra.Data.csproj", "{E5767A17-1A58-4870-B041-397E272E4385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projeto.Infra.Data", "Projeto.Infra.Data\Projeto.Infra.Data.csproj", "{E5767A17-1A58-4870-B041-397E272E4385}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - CrossCutting", "3 - CrossCutting", "{FBA24A74-C643-4D86-BDB1-9B91C4B9EAB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.CrossCutting", "Projeto.CrossCutting\Projeto.CrossCutting.csproj", "{9EB00741-60C3-4AE5-BADF-D6F95A1CB66D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,10 @@ Global
 		{E5767A17-1A58-4870-B041-397E272E4385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5767A17-1A58-4870-B041-397E272E4385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5767A17-1A58-4870-B041-397E272E4385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB00741-60C3-4AE5-BADF-D6F95A1CB66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB00741-60C3-4AE5-BADF-D6F95A1CB66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB00741-60C3-4AE5-BADF-D6F95A1CB66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB00741-60C3-4AE5-BADF-D6F95A1CB66D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DBC26DC4-BF6F-481E-8002-BA718D54AC72} = {918B0CC3-AF0F-4445-BB70-F78403DF021A}
 		{E5767A17-1A58-4870-B041-397E272E4385} = {4202F741-12F1-4903-A60E-9E1421AD6E18}
+		{9EB00741-60C3-4AE5-BADF-D6F95A1CB66D} = {FBA24A74-C643-4D86-BDB1-9B91C4B9EAB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {453D109E-A3D1-4C45-BA34-4DD50DEA7E18}

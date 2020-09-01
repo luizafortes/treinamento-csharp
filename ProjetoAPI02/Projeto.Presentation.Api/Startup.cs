@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Projeto.Infra.Data.Repositories;
+using Projeto.Presentation.Api.Authorization;
 
 namespace Projeto.Presentation.Api
 {
@@ -49,6 +54,46 @@ namespace Projeto.Presentation.Api
                         }
                     });
             });
+
+            //Configuração do JWT
+            var settingsSection = Configuration.GetSection("JwtSettings");
+            services.Configure<JwtSettings>(settingsSection);
+
+            var jwtSettings = settingsSection.Get<JwtSettings>();
+            var key = Encoding.ASCII.GetBytes(jwtSettings.SecretKey);
+
+            services.AddAuthentication(
+                auth =>
+                {
+                    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(
+                    bearer =>
+                    {
+                        bearer.RequireHttpsMetadata = false;
+                        bearer.SaveToken = true;
+                        bearer.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(key),
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+                        };
+                    }
+                );
+
+            services.AddTransient(map => new JwtConfiguration(jwtSettings));
+
+            //CORS
+            services.AddCors(
+               s => s.AddPolicy("DefaultPolicy",
+               builder =>
+               {
+                   builder.AllowAnyOrigin()  //permite que qualquer servidor acesse a API
+                          .AllowAnyMethod()  //permite que qualquer método da API seja acessado (POST, GET, etc)
+                          .AllowAnyHeader(); //permite que sejam enviados parametros de cabeçalho para API
+               }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +106,9 @@ namespace Projeto.Presentation.Api
 
             app.UseRouting();
 
+            app.UseCors("DefaultPolicy");
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
@@ -73,4 +121,3 @@ namespace Projeto.Presentation.Api
         }
     }
 }
-
