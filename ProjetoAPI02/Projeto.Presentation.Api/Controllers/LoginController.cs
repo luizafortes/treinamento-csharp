@@ -31,8 +31,9 @@ namespace Projeto.Presentation.Api.Controllers
                 {
                     var result = new //objeto anônimo
                     {
-                        message = "Usuário autenticado com sucesso.",
                         userToken = jwtConfiguration.GenerateToken(usuario.Email),
+                        userName = usuario.Nome,
+                        userEmail = usuario.Email,
                         expires = DateTime.Now.AddDays(1)
                     };
 
